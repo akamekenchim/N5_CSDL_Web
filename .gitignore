@@ -1,0 +1,30 @@
+# =========================
+# 1. BẢO MẬT MẬT KHẨU CỤC BỘ (QUAN TRỌNG NHẤT)
+# =========================
+kawaiienglish/src/main/resources/application-local.properties
+.vscode/
+
+# =========================
+# 2. THƯ MỤC BUILD CỦA JAVA & MAVEN
+# =========================
+target/
+*.class
+*.log
+*.jar
+*.war
+.mvn/
+mvnw
+mvnw.cmd
+
+# =========================
+# 3. CÁC FILE TẠM VÀ HỆ ĐIỀU HÀNH
+# =========================
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+
+# =========================
+# 4. FRONTEND (Dự phòng nếu sau này dùng NPM)
+# =========================
+node_modules/
