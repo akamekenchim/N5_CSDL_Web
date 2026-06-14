@@ -35,6 +35,9 @@ begin
 
     end if;
     set NEW.`Attempt_ID` = this_attempt_id;
+
+
+    
     SELECT Correct_Answer INTO v_correct_ans 
     FROM Questions 
     WHERE Question_ID = NEW.Question_ID;

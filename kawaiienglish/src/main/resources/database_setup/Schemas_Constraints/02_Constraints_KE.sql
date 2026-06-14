@@ -107,3 +107,5 @@ ADD CONSTRAINT fk_question_id_submissions FOREIGN KEY (Question_ID) REFERENCES Q
 ALTER TABLE Student_Submissions 
 ADD CONSTRAINT fk_attempt_id_submissions FOREIGN KEY (Attempt_ID) REFERENCES Attempts(Attempt_ID);
 
+
+
