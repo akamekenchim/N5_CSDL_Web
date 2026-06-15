@@ -1,0 +1,106 @@
+/* ==========================================================================
+   KawaiiEnglish - Giao diện làm bài & kết quả
+   ========================================================================== */
+
+.quiz-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+    border-left: 8px solid var(--pink);
+}
+.quiz-card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(167,139,250,.28); }
+.quiz-card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+.quiz-card .info { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+
+/* ----- Thẻ câu hỏi ----- */
+.question {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    border-left: 8px solid var(--purple);
+    animation: pop-in .35s ease both;
+}
+.question .q-no {
+    display: inline-block;
+    background: var(--purple);
+    color: #fff;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: .82rem;
+    margin-bottom: 10px;
+}
+.question .q-text { font-size: 1.12rem; font-weight: 700; margin-bottom: 14px; }
+.answer-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid var(--purple-soft);
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.answer-input:focus { border-color: var(--pink); box-shadow: 0 0 0 4px var(--pink-soft); }
+
+/* ----- Kết quả từng câu ----- */
+.result-item {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+    border-left: 8px solid var(--bad);
+}
+.result-item.ok { border-left-color: var(--ok); }
+.result-item .verdict { font-weight: 800; }
+.result-item.ok .verdict { color: var(--ok); }
+.result-item .verdict.no { color: var(--bad); }
+.result-item .ans-line { margin-top: 6px; font-weight: 700; }
+.result-item .ans-line .correct { color: var(--ok); }
+.result-item .ans-line .yours { color: var(--bad); }
+
+/* ----- Bảng tổng kết ----- */
+.result-banner {
+    text-align: center;
+    padding: 30px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--pink-soft), var(--purple-soft));
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+.result-banner .score { font-size: 3rem; font-weight: 800; color: var(--purple); }
+.result-banner .clp { font-size: 1.3rem; font-weight: 800; color: var(--pink); margin-top: 6px; }
+.levelup-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--yellow);
+    color: #9a6a00;
+    font-weight: 800;
+    font-size: 1.1rem;
+    animation: bounce 1s infinite;
+}
+
+/* ----- Từ vựng / ngữ pháp (bài giảng) ----- */
+.vocab-item, .grammar-item {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+}
+.vocab-item .word { font-size: 1.2rem; font-weight: 800; color: var(--purple); }
+.vocab-item .mean { font-weight: 700; }
+.vocab-item .ex, .grammar-item .ex { color: var(--ink-soft); font-style: italic; margin-top: 4px; }
+.grammar-item .struct { font-size: 1.05rem; font-weight: 800; color: var(--pink); }
