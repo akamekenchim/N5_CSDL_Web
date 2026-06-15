@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KawaiiEnglish 🌸 Làm bài</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">🌸 Kawaii<span class="dot">English</span></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Trang cá nhân</a>
+            <a href="quiz.html" class="active">Làm bài</a>
+            <a href="leaderboard.html">Bảng xếp hạng</a>
+            <a href="lessons.html">Bài giảng</a>
+        </nav>
+        <div class="nav-spacer"></div>
+        <div class="who">
+            <span class="pill" id="who-name">...</span>
+            <button class="btn ghost sm" onclick="logout()">Đổi học sinh</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- DANH SÁCH BÀI TẬP -->
+        <section id="quiz-list">
+            <h1 class="page-title">Chọn bài tập 📝</h1>
+            <p class="page-sub">Hoàn thành bài để nhận điểm CLP. Làm đúng nhiều hơn lần trước để được cộng thêm!</p>
+            <div id="quiz-cards" class="grid cols-2"></div>
+        </section>
+
+        <!-- LÀM BÀI -->
+        <section id="quiz-take" class="hidden">
+            <div class="row">
+                <h1 class="page-title" id="take-title" style="margin:0">Bài tập</h1>
+                <div class="spacer"></div>
+                <button class="btn ghost sm" onclick="loadQuizList()">← Chọn bài khác</button>
+            </div>
+            <p class="page-sub">Điền đáp án cho từng câu rồi bấm Nộp bài.</p>
+            <div id="take-body"></div>
+            <div class="row" style="justify-content:center; margin-top:10px">
+                <button id="btn-submit" class="btn" onclick="submitQuiz()">✅ Nộp bài</button>
+            </div>
+        </section>
+
+        <!-- KẾT QUẢ -->
+        <section id="quiz-result" class="hidden">
+            <h1 class="page-title">Kết quả 🎀</h1>
+            <div id="result-body"></div>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

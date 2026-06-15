@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KawaiiEnglish 🌸 Bảng xếp hạng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">🌸 Kawaii<span class="dot">English</span></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Trang cá nhân</a>
+            <a href="quiz.html">Làm bài</a>
+            <a href="leaderboard.html" class="active">Bảng xếp hạng</a>
+            <a href="lessons.html">Bài giảng</a>
+        </nav>
+        <div class="nav-spacer"></div>
+        <div class="who">
+            <span class="pill" id="who-name">...</span>
+            <button class="btn ghost sm" onclick="logout()">Đổi học sinh</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Bảng vàng vinh danh 🏆</h1>
+        <p class="page-sub">Xếp hạng theo Level, sau đó đến điểm CLP. Cố lên nào!</p>
+        <div class="card"><div id="lb-body"></div></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/leaderboard.js"></script>
+</body>
+</html>
