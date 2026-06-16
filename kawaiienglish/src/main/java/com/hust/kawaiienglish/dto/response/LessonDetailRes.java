@@ -3,7 +3,7 @@ package com.hust.kawaiienglish.dto.response;
 import java.util.List;
 
 /**
- * Chi tiết 1 bài giảng: thông tin + danh sách từ vựng + ngữ pháp.
+ * Chi tiết 1 bài giảng: thông tin + từ vựng + ngữ pháp + các bài tập (quiz) đính kèm.
  */
 public record LessonDetailRes(
         int lessonId,
@@ -11,5 +11,6 @@ public record LessonDetailRes(
         int levelRequired,
         String teacherName,
         List<VocabularyRes> vocabulary,
-        List<GrammarRes> grammar
+        List<GrammarRes> grammar,
+        List<QuizSummaryRes> quizzes
 ) {}

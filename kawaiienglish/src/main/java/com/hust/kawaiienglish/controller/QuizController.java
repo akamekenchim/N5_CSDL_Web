@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.kawaiienglish.dto.request.SubmitQuizReq;
@@ -29,8 +30,8 @@ public class QuizController {
     }
 
     @GetMapping
-    public List<QuizSummaryRes> getAll() {
-        return quizService.getAllQuizzes();
+    public List<QuizSummaryRes> getAll(@RequestParam(required = false) Integer studentId) {
+        return quizService.getAllQuizzes(studentId);
     }
 
     @GetMapping("/{id}/questions")

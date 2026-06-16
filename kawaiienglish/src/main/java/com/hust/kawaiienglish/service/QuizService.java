@@ -38,8 +38,18 @@ public class QuizService {
         this.studentRepository = studentRepository;
     }
 
-    public List<QuizSummaryRes> getAllQuizzes() {
-        return quizRepository.findAllSummaries();
+    /**
+     * Danh sách bài tập. Nếu truyền studentId, chỉ trả về bài tập mà học sinh đủ cấp độ làm
+     * (theo Level_Required của bài giảng chứa bài tập đó).
+     */
+    public List<QuizSummaryRes> getAllQuizzes(Integer studentId) {
+        if (studentId == null) {
+            return quizRepository.findAllSummaries();
+        }
+        int level = studentRepository.findLevel(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Không tìm thấy học sinh với ID = " + studentId));
+        return quizRepository.findSummariesForLevel(level);
     }
 
     public List<QuizQuestionRes> getQuestions(int quizId) {

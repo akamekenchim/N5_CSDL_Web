@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.kawaiienglish.dto.response.LessonCatalogRes;
@@ -25,8 +26,8 @@ public class LessonController {
     }
 
     @GetMapping
-    public List<LessonCatalogRes> getCatalog() {
-        return lessonService.getCatalog();
+    public List<LessonCatalogRes> getCatalog(@RequestParam(required = false) Integer studentId) {
+        return lessonService.getCatalog(studentId);
     }
 
     @GetMapping("/{id}")
