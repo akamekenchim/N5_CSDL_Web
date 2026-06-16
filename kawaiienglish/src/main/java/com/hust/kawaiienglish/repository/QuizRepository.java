@@ -33,18 +33,33 @@ public class QuizRepository {
             rs.getInt("Minimum_Pass_Score")
     );
 
+    /** SQL nền: mỗi quiz kèm thông tin bài giảng (Lesson) + đếm số câu hỏi. */
+    private static final String SUMMARY_SELECT = """
+            SELECT qz.Quiz_ID, l.Title, l.Level_Required,
+                   qz.Possible_Points, qz.Minimum_Pass_Score,
+                   COUNT(q.Question_ID) AS Num_Questions
+            FROM Quizzes qz
+            JOIN Lessons l   ON qz.Lesson_ID = l.Lesson_ID
+            JOIN Questions q ON q.Quiz_ID = qz.Quiz_ID
+            """;
+    private static final String SUMMARY_GROUP =
+            " GROUP BY qz.Quiz_ID, l.Title, l.Level_Required, qz.Possible_Points, qz.Minimum_Pass_Score"
+            + " ORDER BY qz.Quiz_ID";
+
     public List<QuizSummaryRes> findAllSummaries() {
-        String sql = """
-                SELECT qz.Quiz_ID, l.Title, l.Level_Required,
-                       qz.Possible_Points, qz.Minimum_Pass_Score,
-                       COUNT(q.Question_ID) AS Num_Questions
-                FROM Quizzes qz
-                JOIN Lessons l   ON qz.Lesson_ID = l.Lesson_ID
-                JOIN Questions q ON q.Quiz_ID = qz.Quiz_ID
-                GROUP BY qz.Quiz_ID, l.Title, l.Level_Required, qz.Possible_Points, qz.Minimum_Pass_Score
-                ORDER BY qz.Quiz_ID
-                """;
-        return jdbc.query(sql, SUMMARY_MAPPER);
+        return jdbc.query(SUMMARY_SELECT + SUMMARY_GROUP, SUMMARY_MAPPER);
+    }
+
+    /** Chỉ các bài tập mà học sinh đủ cấp độ làm (theo Level_Required của bài giảng). */
+    public List<QuizSummaryRes> findSummariesForLevel(int studentLevel) {
+        return jdbc.query(SUMMARY_SELECT + " WHERE l.Level_Required <= ?" + SUMMARY_GROUP,
+                SUMMARY_MAPPER, studentLevel);
+    }
+
+    /** Các bài tập thuộc về 1 bài giảng cụ thể (đính kèm qua Lesson_ID trong bảng Quizzes). */
+    public List<QuizSummaryRes> findByLessonId(int lessonId) {
+        return jdbc.query(SUMMARY_SELECT + " WHERE qz.Lesson_ID = ?" + SUMMARY_GROUP,
+                SUMMARY_MAPPER, lessonId);
     }
 
     public boolean existsById(int quizId) {

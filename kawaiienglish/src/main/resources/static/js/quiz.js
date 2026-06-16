@@ -19,7 +19,15 @@ async function initQuiz() {
     const id = requireStudent();
     if (!id) return;
     renderWho();
-    await loadQuizList();
+
+    // Nếu mở từ trang bài giảng (quiz.html?quizId=...) thì vào thẳng bài tập đó
+    const params = new URLSearchParams(location.search);
+    const presetId = params.get('quizId');
+    if (presetId) {
+        startQuiz(parseInt(presetId, 10), params.get('t') || ('Bài tập #' + presetId));
+    } else {
+        await loadQuizList();
+    }
 }
 
 async function loadQuizList() {
@@ -27,9 +35,10 @@ async function loadQuizList() {
     const wrap = document.getElementById('quiz-cards');
     wrap.innerHTML = '<div class="loading">Đang tải danh sách bài tập...</div>';
     try {
-        const quizzes = await getJSON('/quizzes');
+        // Chỉ lấy bài tập phù hợp cấp độ của học sinh hiện tại
+        const quizzes = await getJSON('/quizzes?studentId=' + getCurrentStudentId());
         if (!quizzes.length) {
-            wrap.innerHTML = '<div class="empty">Chưa có bài tập nào.</div>';
+            wrap.innerHTML = '<div class="empty">Chưa có bài tập nào phù hợp với cấp độ của bạn.</div>';
             return;
         }
         wrap.innerHTML = quizzes.map(q => `

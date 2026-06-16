@@ -35,6 +35,13 @@ public class LessonRepository {
         return jdbc.query("SELECT * FROM v_lesson_catalog ORDER BY Lesson_ID", CATALOG_MAPPER);
     }
 
+    /** Chỉ những bài giảng mà học sinh đủ cấp độ để học (Level_Required <= level học sinh). */
+    public List<LessonCatalogRes> findCatalogForLevel(int studentLevel) {
+        return jdbc.query(
+                "SELECT * FROM v_lesson_catalog WHERE Level_Required <= ? ORDER BY Lesson_ID",
+                CATALOG_MAPPER, studentLevel);
+    }
+
     public Optional<LessonCatalogRes> findCatalogById(int lessonId) {
         return jdbc.query("SELECT * FROM v_lesson_catalog WHERE Lesson_ID = ?",
                 CATALOG_MAPPER, lessonId).stream().findFirst();

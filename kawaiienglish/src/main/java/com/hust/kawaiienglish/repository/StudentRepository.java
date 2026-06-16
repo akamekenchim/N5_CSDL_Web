@@ -46,6 +46,12 @@ public class StudentRepository {
         return count != null && count > 0;
     }
 
+    /** Cấp độ (Level) hiện tại của học sinh - dùng để lọc bài giảng / bài tập theo trình độ. */
+    public Optional<Integer> findLevel(int studentId) {
+        return jdbc.query("SELECT Level FROM Students WHERE Student_ID = ?",
+                (rs, i) -> rs.getInt("Level"), studentId).stream().findFirst();
+    }
+
     /** Đọc thông tin dashboard từ view (rankPosition để null, sẽ được Service bổ sung). */
     public Optional<DashboardRes> findDashboard(int studentId) {
         String sql = "SELECT * FROM v_student_dashboard WHERE Student_ID = ?";
