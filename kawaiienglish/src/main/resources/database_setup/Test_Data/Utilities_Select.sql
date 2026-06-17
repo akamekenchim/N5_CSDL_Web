@@ -29,3 +29,5 @@ SELECT * FROM v_student_dashboard WHERE Student_ID = 2;
 
 -- Kiem tra thong tin cua Hoang Nam (Hoc sinh dang lam do dang)
 SELECT * FROM v_student_dashboard WHERE Student_ID = 4;
+
+call sp_check_levelup(2, -320);

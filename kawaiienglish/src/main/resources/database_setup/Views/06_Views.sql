@@ -66,3 +66,11 @@ FROM
     Lessons l
 JOIN 
     Teacher t ON l.Teacher_ID = t.Teacher_ID;
+
+
+create or replace view v_class_students as
+select students.`Full_Name`, classes.`Class_Name`, students.`Email`, students.`Current_Level_Progress`, students.`Level`, students.`Accuracy`, students.`Class_ID`
+from students
+    join classes on classes.`Class_ID` = students.`Class_ID`;
+
+select * from v_class_students where `Class_ID` = 3;
