@@ -42,7 +42,8 @@ async function loadQuizList() {
             return;
         }
         wrap.innerHTML = quizzes.map(q => `
-            <div class="quiz-card" data-id="${q.quizId}" data-title="${esc(q.lessonTitle)}">
+            <div class="quiz-card ${q.attempted ? 'seen' : ''}" data-id="${q.quizId}" data-title="${esc(q.lessonTitle)}">
+                ${q.attempted ? '<span class="seen-tag">✓ Đã làm</span>' : ''}
                 <h3>📘 ${esc(q.lessonTitle)}</h3>
                 <div class="muted">Bài tập #${q.quizId}</div>
                 <div class="info">
@@ -50,6 +51,7 @@ async function loadQuizList() {
                     <span class="badge level">${q.possiblePoints} điểm</span>
                     <span class="badge cefr">Yêu cầu Lv.${q.levelRequired}</span>
                 </div>
+                ${q.attempted ? `<div class="best-score">🏆 Điểm cao nhất từng đạt: <strong>${q.bestScore}/${q.numQuestions}</strong></div>` : ''}
             </div>
         `).join('');
         wrap.querySelectorAll('.quiz-card').forEach(card => {

@@ -1,4 +1,4 @@
-use n5_kawaii_english;
+use kawaiienglishl;
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Student_Submissions;
 DROP TABLE IF EXISTS Attempts;

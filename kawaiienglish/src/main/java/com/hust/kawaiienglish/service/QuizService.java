@@ -49,7 +49,7 @@ public class QuizService {
         int level = studentRepository.findLevel(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Không tìm thấy học sinh với ID = " + studentId));
-        return quizRepository.findSummariesForLevel(level);
+        return quizRepository.findSummariesForLevel(studentId, level);
     }
 
     public List<QuizQuestionRes> getQuestions(int quizId) {

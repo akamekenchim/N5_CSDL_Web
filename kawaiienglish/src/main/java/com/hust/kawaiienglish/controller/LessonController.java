@@ -31,7 +31,8 @@ public class LessonController {
     }
 
     @GetMapping("/{id}")
-    public LessonDetailRes getDetail(@PathVariable int id) {
-        return lessonService.getDetail(id);
+    public LessonDetailRes getDetail(@PathVariable int id,
+                                     @RequestParam(required = false) Integer studentId) {
+        return lessonService.getDetail(id, studentId);
     }
 }

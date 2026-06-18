@@ -40,13 +40,17 @@ public class LessonService {
         int level = studentRepository.findLevel(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Không tìm thấy học sinh với ID = " + studentId));
-        return lessonRepository.findCatalogForLevel(level);
+        return lessonRepository.findCatalogForLevel(studentId, level);
     }
 
-    public LessonDetailRes getDetail(int lessonId) {
+    public LessonDetailRes getDetail(int lessonId, Integer studentId) {
         LessonCatalogRes info = lessonRepository.findCatalogById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Không tìm thấy bài giảng với ID = " + lessonId));
+        // Nếu biết học sinh, các bài tập kèm cờ đã-làm + điểm cao nhất để hiển thị trực quan.
+        var quizzes = studentId == null
+                ? quizRepository.findByLessonId(lessonId)
+                : quizRepository.findByLessonId(studentId, lessonId);
         return new LessonDetailRes(
                 info.lessonId(),
                 info.lessonTitle(),
@@ -54,6 +58,6 @@ public class LessonService {
                 info.teacherName(),
                 lessonRepository.findVocabulary(lessonId),
                 lessonRepository.findGrammar(lessonId),
-                quizRepository.findByLessonId(lessonId));
+                quizzes);
     }
 }

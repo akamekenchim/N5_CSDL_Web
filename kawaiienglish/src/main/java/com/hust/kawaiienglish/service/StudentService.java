@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hust.kawaiienglish.dto.response.DashboardRes;
+import com.hust.kawaiienglish.dto.response.PageRes;
 import com.hust.kawaiienglish.dto.response.StudentSummaryRes;
 import com.hust.kawaiienglish.exception.ResourceNotFoundException;
 import com.hust.kawaiienglish.repository.LeaderboardRepository;
@@ -26,6 +27,15 @@ public class StudentService {
 
     public List<StudentSummaryRes> getAllStudents() {
         return studentRepository.findAllSummaries();
+    }
+
+    /** Danh sách học sinh có phân trang (10 HS/trang) cho màn hình chọn vai trò. */
+    public PageRes<StudentSummaryRes> getStudentPage(int page, int size) {
+        int p = Math.max(0, page);
+        int s = Math.max(1, size);
+        long total = studentRepository.countAll();
+        List<StudentSummaryRes> content = studentRepository.findSummariesPage(s, p * s);
+        return PageRes.of(content, p, s, total);
     }
 
     /** Thông tin dashboard + thứ hạng (rank) ghép từ bảng xếp hạng. */

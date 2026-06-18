@@ -30,14 +30,12 @@ public class QuizRepository {
             rs.getInt("Level_Required"),
             rs.getInt("Num_Questions"),
             rs.getInt("Possible_Points"),
-            rs.getInt("Minimum_Pass_Score")
+            rs.getInt("Minimum_Pass_Score"),
+            rs.getInt("Attempted") != 0,
+            rs.getInt("Best_Score")
     );
 
-    /** SQL nền: mỗi quiz kèm thông tin bài giảng (Lesson) + đếm số câu hỏi. */
-    private static final String SUMMARY_SELECT = """
-            SELECT qz.Quiz_ID, l.Title, l.Level_Required,
-                   qz.Possible_Points, qz.Minimum_Pass_Score,
-                   COUNT(q.Question_ID) AS Num_Questions
+    private static final String FROM_QUIZ = """
             FROM Quizzes qz
             JOIN Lessons l   ON qz.Lesson_ID = l.Lesson_ID
             JOIN Questions q ON q.Quiz_ID = qz.Quiz_ID
@@ -46,17 +44,45 @@ public class QuizRepository {
             " GROUP BY qz.Quiz_ID, l.Title, l.Level_Required, qz.Possible_Points, qz.Minimum_Pass_Score"
             + " ORDER BY qz.Quiz_ID";
 
+    /** SQL nền không gắn học sinh: attempted/bestScore để mặc định 0. */
+    private static final String SUMMARY_SELECT =
+            "SELECT qz.Quiz_ID, l.Title, l.Level_Required, qz.Possible_Points, qz.Minimum_Pass_Score, "
+            + "COUNT(q.Question_ID) AS Num_Questions, 0 AS Attempted, 0 AS Best_Score "
+            + FROM_QUIZ;
+
+    /**
+     * SQL gắn học sinh: thêm hai cột phụ thuộc Student_ID (tham số ? đầu tiên & thứ hai):
+     *  - Best_Score = điểm cao nhất từng đạt: SELECT COALESCE(MAX(total_points),0) ... status='COMPLETED'
+     *  - Attempted  = đã có lượt làm bài này chưa
+     */
+    private static final String SUMMARY_SELECT_STUDENT =
+            "SELECT qz.Quiz_ID, l.Title, l.Level_Required, qz.Possible_Points, qz.Minimum_Pass_Score, "
+            + "COUNT(q.Question_ID) AS Num_Questions, "
+            + "EXISTS(SELECT 1 FROM Attempts a2 WHERE a2.Student_ID = ? AND a2.Quiz_ID = qz.Quiz_ID) AS Attempted, "
+            + "(SELECT COALESCE(MAX(at.Total_Points), 0) FROM Attempts at "
+            + " WHERE at.Student_ID = ? AND at.Quiz_ID = qz.Quiz_ID AND at.Status = 'COMPLETED') AS Best_Score "
+            + FROM_QUIZ;
+
     public List<QuizSummaryRes> findAllSummaries() {
         return jdbc.query(SUMMARY_SELECT + SUMMARY_GROUP, SUMMARY_MAPPER);
     }
 
-    /** Chỉ các bài tập mà học sinh đủ cấp độ làm (theo Level_Required của bài giảng). */
-    public List<QuizSummaryRes> findSummariesForLevel(int studentLevel) {
-        return jdbc.query(SUMMARY_SELECT + " WHERE l.Level_Required <= ?" + SUMMARY_GROUP,
-                SUMMARY_MAPPER, studentLevel);
+    /**
+     * Bài tập học sinh đủ cấp độ làm (Level_Required <= level), kèm cờ đã-làm và điểm cao nhất.
+     * Thứ tự tham số: studentId (Attempted), studentId (Best_Score), studentLevel (WHERE).
+     */
+    public List<QuizSummaryRes> findSummariesForLevel(int studentId, int studentLevel) {
+        return jdbc.query(SUMMARY_SELECT_STUDENT + " WHERE l.Level_Required <= ?" + SUMMARY_GROUP,
+                SUMMARY_MAPPER, studentId, studentId, studentLevel);
     }
 
-    /** Các bài tập thuộc về 1 bài giảng cụ thể (đính kèm qua Lesson_ID trong bảng Quizzes). */
+    /** Các bài tập của 1 bài giảng, kèm cờ đã-làm + điểm cao nhất của học sinh. */
+    public List<QuizSummaryRes> findByLessonId(int studentId, int lessonId) {
+        return jdbc.query(SUMMARY_SELECT_STUDENT + " WHERE qz.Lesson_ID = ?" + SUMMARY_GROUP,
+                SUMMARY_MAPPER, studentId, studentId, lessonId);
+    }
+
+    /** Các bài tập của 1 bài giảng (không gắn học sinh - dùng cho ngữ cảnh quản trị). */
     public List<QuizSummaryRes> findByLessonId(int lessonId) {
         return jdbc.query(SUMMARY_SELECT + " WHERE qz.Lesson_ID = ?" + SUMMARY_GROUP,
                 SUMMARY_MAPPER, lessonId);

@@ -28,22 +28,34 @@ public class LessonRepository {
             rs.getString("Lesson_Title"),
             rs.getInt("Level_Required"),
             rs.getString("Teacher_Name"),
-            rs.getString("Teacher_Email")
+            rs.getString("Teacher_Email"),
+            rs.getInt("Attempted") != 0
     );
 
     public List<LessonCatalogRes> findCatalog() {
-        return jdbc.query("SELECT * FROM v_lesson_catalog ORDER BY Lesson_ID", CATALOG_MAPPER);
+        return jdbc.query("SELECT v.*, 0 AS Attempted FROM v_lesson_catalog v ORDER BY v.Lesson_ID",
+                CATALOG_MAPPER);
     }
 
-    /** Chỉ những bài giảng mà học sinh đủ cấp độ để học (Level_Required <= level học sinh). */
-    public List<LessonCatalogRes> findCatalogForLevel(int studentLevel) {
-        return jdbc.query(
-                "SELECT * FROM v_lesson_catalog WHERE Level_Required <= ? ORDER BY Lesson_ID",
-                CATALOG_MAPPER, studentLevel);
+    /**
+     * Bài giảng học sinh đủ cấp độ học (Level_Required <= level), kèm cờ "đã học" =
+     * học sinh đã làm bài tập nào thuộc bài giảng này chưa (để đổi màu nền).
+     */
+    public List<LessonCatalogRes> findCatalogForLevel(int studentId, int studentLevel) {
+        String sql = """
+                SELECT v.*,
+                       EXISTS(SELECT 1 FROM Quizzes qz
+                              JOIN Attempts a ON a.Quiz_ID = qz.Quiz_ID
+                              WHERE qz.Lesson_ID = v.Lesson_ID AND a.Student_ID = ?) AS Attempted
+                FROM v_lesson_catalog v
+                WHERE v.Level_Required <= ?
+                ORDER BY v.Lesson_ID
+                """;
+        return jdbc.query(sql, CATALOG_MAPPER, studentId, studentLevel);
     }
 
     public Optional<LessonCatalogRes> findCatalogById(int lessonId) {
-        return jdbc.query("SELECT * FROM v_lesson_catalog WHERE Lesson_ID = ?",
+        return jdbc.query("SELECT v.*, 0 AS Attempted FROM v_lesson_catalog v WHERE v.Lesson_ID = ?",
                 CATALOG_MAPPER, lessonId).stream().findFirst();
     }
 

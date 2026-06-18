@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KawaiiEnglish 🌸 Giáo viên</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">🌸 Kawaii<span class="dot">English</span> · Giáo viên</div>
+        <nav class="nav-links">
+            <a href="#" id="nav-students" class="active">Học sinh của tôi</a>
+            <a href="#" id="nav-create">Tạo bài giảng</a>
+        </nav>
+        <div class="nav-spacer"></div>
+        <div class="who">
+            <span class="pill" id="who-name">...</span>
+            <button class="btn ghost sm" onclick="logoutTeacher()">Đổi vai trò</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ===== VIEW 1: Quản lý học sinh theo lớp ===== -->
+        <section id="view-students">
+            <h1 class="page-title">Lớp của tôi 👩‍🏫</h1>
+            <p class="page-sub">Chọn lớp để xem học sinh, theo dõi độ chính xác và tăng/giảm điểm.</p>
+
+            <div id="class-tabs" class="class-tabs">
+                <div class="loading">Đang tải lớp...</div>
+            </div>
+
+            <div id="students-box"></div>
+
+            <div id="students-pager" class="pager hidden">
+                <button class="btn ghost sm" id="st-prev">← Trước</button>
+                <span class="pill" id="st-info">Trang 1</span>
+                <button class="btn ghost sm" id="st-next">Sau →</button>
+            </div>
+        </section>
+
+        <!-- ===== VIEW 2: Tạo bài giảng (wizard 3 bước, 1 transaction) ===== -->
+        <section id="view-create" class="hidden">
+            <h1 class="page-title">Tạo bài giảng mới ✍️</h1>
+            <p class="page-sub">Hoàn thành 3 bước; toàn bộ được lưu trong cùng một transaction.</p>
+
+            <div class="wizard-steps">
+                <span class="wstep active" data-step="1">1 · Bài giảng</span>
+                <span class="wstep" data-step="2">2 · Từ vựng & Ngữ pháp</span>
+                <span class="wstep" data-step="3">3 · Bài tập & Câu hỏi</span>
+            </div>
+
+            <!-- Bước 1 -->
+            <div class="card wstep-panel" data-panel="1">
+                <h3>Bước 1: Thông tin bài giảng</h3>
+                <label class="fld">Tiêu đề (Title)
+                    <input id="f-title" type="text" placeholder="VD: Bài 5: Thì Tương lai đơn">
+                </label>
+                <label class="fld">Cấp độ yêu cầu (Level_Required: 1–6)
+                    <input id="f-level" type="number" min="1" max="6" value="1">
+                </label>
+                <div class="row end">
+                    <button class="btn" onclick="goStep(2)">Tiếp tục →</button>
+                </div>
+            </div>
+
+            <!-- Bước 2 -->
+            <div class="card wstep-panel hidden" data-panel="2">
+                <h3>Bước 2: 5 từ vựng</h3>
+                <div id="vocab-fields"></div>
+                <h3 style="margin-top:18px">2 cấu trúc ngữ pháp</h3>
+                <div id="grammar-fields"></div>
+                <div class="row between">
+                    <button class="btn ghost" onclick="goStep(1)">← Quay lại</button>
+                    <button class="btn" onclick="goStep(3)">Tiếp tục →</button>
+                </div>
+            </div>
+
+            <!-- Bước 3 -->
+            <div class="card wstep-panel hidden" data-panel="3">
+                <h3>Bước 3: Bài tập</h3>
+                <label class="fld">Mốc điểm qua (Minimum_Pass_Score)
+                    <input id="f-minpass" type="number" min="0" value="10">
+                </label>
+                <label class="fld">Tổng điểm (Possible_Points)
+                    <input id="f-possible" type="number" min="0" value="100">
+                </label>
+                <p class="muted">Lưu ý: bảng Quizzes không có trường tên bài nên không cần nhập.</p>
+                <h3 style="margin-top:18px">3 câu hỏi</h3>
+                <div id="question-fields"></div>
+                <div class="row between">
+                    <button class="btn ghost" onclick="goStep(2)">← Quay lại</button>
+                    <button class="btn purple" id="btn-create" onclick="submitLesson()">✅ Tạo bài giảng</button>
+                </div>
+            </div>
+
+            <div id="create-result"></div>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/teacher.js"></script>
+</body>
+</html>

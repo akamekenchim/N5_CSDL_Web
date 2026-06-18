@@ -21,15 +21,19 @@ async function loadCatalog() {
             wrap.innerHTML = '<div class="empty">Chưa có bài giảng nào phù hợp với cấp độ của bạn.<br>Hãy luyện tập để lên cấp và mở khoá thêm bài giảng nhé! 💪</div>';
             return;
         }
-        wrap.innerHTML = lessons.map(l => `
-            <div class="quiz-card" data-id="${l.lessonId}">
+        // "Đã học" nếu DB báo đã làm bài tập của bài giảng (attempted) HOẶC đã từng mở xem (localStorage)
+        wrap.innerHTML = lessons.map(l => {
+            const seen = l.attempted || isLessonViewed(l.lessonId);
+            return `
+            <div class="quiz-card ${seen ? 'seen' : ''}" data-id="${l.lessonId}">
+                ${seen ? '<span class="seen-tag">✓ Đã học</span>' : ''}
                 <h3>📖 ${esc(l.lessonTitle)}</h3>
                 <div class="info">
                     <span class="badge cefr">Yêu cầu Lv.${l.levelRequired}</span>
                     <span class="badge">👩‍🏫 ${esc(l.teacherName)}</span>
                 </div>
-            </div>
-        `).join('');
+            </div>`;
+        }).join('');
         wrap.querySelectorAll('.quiz-card').forEach(card => {
             card.addEventListener('click', () => loadDetail(parseInt(card.dataset.id, 10)));
         });
@@ -43,8 +47,9 @@ async function loadDetail(lessonId) {
     const box = document.getElementById('lesson-detail');
     box.classList.remove('hidden');
     box.innerHTML = '<div class="loading">Đang tải nội dung...</div>';
+    markLessonViewed(lessonId);   // đánh dấu "đã xem" để lần sau đổi màu nền
     try {
-        const d = await getJSON('/lessons/' + lessonId);
+        const d = await getJSON('/lessons/' + lessonId + '?studentId=' + getCurrentStudentId());
         const vocab = d.vocabulary.length
             ? d.vocabulary.map(v => `
                 <div class="vocab-item">
@@ -65,12 +70,14 @@ async function loadDetail(lessonId) {
         // Bài tập đính kèm bài giảng này (qua Lesson_ID trong bảng Quizzes)
         const quizzes = d.quizzes.length
             ? '<div class="grid cols-2">' + d.quizzes.map(q => `
-                <div class="quiz-card" onclick="location.href='quiz.html?quizId=${q.quizId}&t=${encodeURIComponent(d.lessonTitle)}'">
+                <div class="quiz-card ${q.attempted ? 'seen' : ''}" onclick="location.href='quiz.html?quizId=${q.quizId}&t=${encodeURIComponent(d.lessonTitle)}'">
+                    ${q.attempted ? '<span class="seen-tag">✓ Đã làm</span>' : ''}
                     <h3>📝 Bài tập #${q.quizId}</h3>
                     <div class="info">
                         <span class="badge">${q.numQuestions} câu hỏi</span>
                         <span class="badge level">${q.possiblePoints} điểm</span>
                     </div>
+                    ${q.attempted ? `<div class="best-score">🏆 Điểm cao nhất từng đạt: <strong>${q.bestScore}/${q.numQuestions}</strong></div>` : ''}
                     <button type="button" class="btn sm" style="margin-top:12px">Làm bài ngay →</button>
                 </div>`).join('') + '</div>'
             : '<div class="muted">Bài giảng này chưa có bài tập.</div>';

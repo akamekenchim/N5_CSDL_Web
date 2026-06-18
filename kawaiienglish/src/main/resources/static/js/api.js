@@ -65,10 +65,68 @@ function requireStudent() {
     return id;
 }
 
+/* ----- Phiên giáo viên hiện tại -----
+   Teacher_ID chính thức nằm trong HttpSession của server; localStorage chỉ giữ bản sao
+   để tiện hiển thị tên / điều hướng phía client. */
+function setCurrentTeacher(id, name) {
+    localStorage.setItem('ke_teacher_id', id);
+    localStorage.setItem('ke_teacher_name', name || '');
+}
+function getCurrentTeacherId() {
+    const v = localStorage.getItem('ke_teacher_id');
+    return v ? parseInt(v, 10) : null;
+}
+function getCurrentTeacherName() {
+    return localStorage.getItem('ke_teacher_name') || '';
+}
+async function logoutTeacher() {
+    try { await postJSON('/teachers/logout', {}); } catch (e) { /* bỏ qua */ }
+    localStorage.removeItem('ke_teacher_id');
+    localStorage.removeItem('ke_teacher_name');
+    window.location.href = 'index.html';
+}
+
+/**
+ * Buộc phải đăng nhập giáo viên (có Session trên server). Xác thực qua /teachers/me;
+ * nếu Session hết hạn thì quay về trang chọn vai trò.
+ */
+async function requireTeacher() {
+    try {
+        const me = await getJSON('/teachers/me');
+        setCurrentTeacher(me.teacherId, me.fullName);
+        return me;
+    } catch (e) {
+        window.location.href = 'index.html';
+        return null;
+    }
+}
+
 /** Hiển thị tên học sinh hiện tại lên thanh điều hướng (nếu có ô #who-name). */
 function renderWho() {
     const el = document.getElementById('who-name');
     if (el) el.textContent = getCurrentStudentName() || ('HS #' + (getCurrentStudentId() || '?'));
+}
+
+/* ----- Đánh dấu bài giảng "đã xem" (lưu client theo từng học sinh) -----
+   "Đã xem" là hành vi phía người dùng nên lưu ở localStorage; còn "đã làm bài tập"
+   được suy ra từ DB (cờ attempted trả về từ API). */
+function _viewedKey() {
+    return 'ke_viewed_lessons_' + (getCurrentStudentId() || '0');
+}
+function markLessonViewed(lessonId) {
+    const set = new Set(getViewedLessons());
+    set.add(parseInt(lessonId, 10));
+    localStorage.setItem(_viewedKey(), JSON.stringify([...set]));
+}
+function getViewedLessons() {
+    try {
+        return JSON.parse(localStorage.getItem(_viewedKey()) || '[]');
+    } catch (e) {
+        return [];
+    }
+}
+function isLessonViewed(lessonId) {
+    return getViewedLessons().includes(parseInt(lessonId, 10));
 }
 
 /** Chống XSS đơn giản khi chèn chuỗi vào HTML. */

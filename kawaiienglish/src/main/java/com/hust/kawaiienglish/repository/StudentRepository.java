@@ -40,6 +40,23 @@ public class StudentRepository {
         return jdbc.query(sql, SUMMARY_MAPPER);
     }
 
+    public long countAll() {
+        Long n = jdbc.queryForObject("SELECT COUNT(*) FROM Students", Long.class);
+        return n == null ? 0 : n;
+    }
+
+    /** 1 trang học sinh (Pagination/Limit - 10 HS/trang ở màn hình chọn vai trò). */
+    public List<StudentSummaryRes> findSummariesPage(int limit, int offset) {
+        String sql = """
+                SELECT s.Student_ID, s.Full_Name, s.Level, s.Assessment_CEFR, c.Class_Name
+                FROM Students s
+                LEFT JOIN Classes c ON s.Class_ID = c.Class_ID
+                ORDER BY s.Student_ID
+                LIMIT ? OFFSET ?
+                """;
+        return jdbc.query(sql, SUMMARY_MAPPER, limit, offset);
+    }
+
     public boolean existsById(int studentId) {
         Integer count = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM Students WHERE Student_ID = ?", Integer.class, studentId);

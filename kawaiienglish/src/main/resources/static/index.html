@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KawaiiEnglish 🌸 Chọn học sinh</title>
+    <title>KawaiiEnglish 🌸 Chọn vai trò</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
@@ -16,10 +16,23 @@
 
     <div class="container">
         <h1 class="page-title center">Xin chào! Bạn là ai? 👋</h1>
-        <p class="page-sub center">Chọn hồ sơ học sinh của bạn để bắt đầu hành trình chinh phục tiếng Anh.</p>
+        <p class="page-sub center">Chọn vai trò rồi chọn hồ sơ của bạn để bắt đầu nhé.</p>
 
-        <div id="student-grid" class="grid cols-auto">
-            <div class="loading">Đang tải danh sách học sinh...</div>
+        <!-- Bộ chuyển vai trò: Học sinh / Giáo viên -->
+        <div class="role-switch">
+            <button class="role-btn active" data-role="student">🎒 Học sinh</button>
+            <button class="role-btn" data-role="teacher">👩‍🏫 Giáo viên</button>
+        </div>
+
+        <div id="profile-grid" class="grid cols-auto">
+            <div class="loading">Đang tải danh sách...</div>
+        </div>
+
+        <!-- Điều hướng phân trang (Pagination) -->
+        <div id="pager" class="pager hidden">
+            <button class="btn ghost sm" id="pg-prev">← Trước</button>
+            <span class="pill" id="pg-info">Trang 1</span>
+            <button class="btn ghost sm" id="pg-next">Sau →</button>
         </div>
     </div>
 
