@@ -108,4 +108,13 @@ ALTER TABLE Student_Submissions
 ADD CONSTRAINT fk_attempt_id_submissions FOREIGN KEY (Attempt_ID) REFERENCES Attempts(Attempt_ID);
 
 
+alter table grammar_structures
+modify column content varchar(255) not null;
+alter table vocabulary
+modify column example varchar(255) not null;
+
+alter table grammar_structures
+modify column example varchar(255) not null;
+
+
 
