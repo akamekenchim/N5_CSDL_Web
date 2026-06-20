@@ -45,3 +45,7 @@ MODIFY COLUMN Is_Correct TINYINT NOT NULL DEFAULT 0;
 ALTER TABLE Quizzes
 MODIFY COLUMN Minimum_Pass_Score INT NOT NULL DEFAULT 0,
 MODIFY COLUMN Possible_Points INT NOT NULL DEFAULT 0;
+
+--Không cho phép một học sinh nộp nhiều lần cho cùng một câu hỏi trong cùng một lần làm bài
+ALTER TABLE Student_Submissions
+ADD CONSTRAINT uq_attempt_question UNIQUE (Attempt_ID, Question_ID);

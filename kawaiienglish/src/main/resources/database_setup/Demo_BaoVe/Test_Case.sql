@@ -4,7 +4,7 @@ values ('Le Sang Hiec', 'faker@hust.edu.vn', 'A1');
 select * from classes;
 insert into students(`Full_Name`, `Email`, `Assessment_CEFR`)
 values ('Hoang Tuyen', 'tuyen@hust.edu.vn', 'A1');
-select students.`Student_ID` from students where students.`Full_Name` like '%Hoang Tuyen%';
+select students.* from students where students.`Full_Name` like '%Hoang Tuyen%';
 call show_lessons(10);
 select * from lessons;
 select * from v_student_dashboard where v_student_dashboard.`Student_ID` = 10; 
@@ -14,7 +14,7 @@ call delete_Student(10);
 select * from vocabulary where vocabulary.`Lesson_ID` = 1;
 select * from grammar_structures where grammar_structures.`Lesson_ID` = 1;
 select * from quizzes where quizzes.`Lesson_ID` = 1;
-select * from v_quiz_details where `Lesson_ID` = 1;
+select * from questions where questions.Quiz_ID = 1;
 
 INSERT INTO Student_Submissions (Student_ID, Student_ANS, Question_ID) values
 (10, 'water', 1),
@@ -31,5 +31,6 @@ INSERT INTO Student_Submissions (Student_ID, Student_ANS, Question_ID) values
 INSERT INTO Student_Submissions (Student_ID, Student_ANS, Question_ID) values
 (10, 'full', 3);
 
+call sp_check_levelup(10, -10);
 
 

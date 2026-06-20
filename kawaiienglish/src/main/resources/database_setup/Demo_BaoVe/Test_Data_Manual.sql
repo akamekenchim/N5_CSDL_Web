@@ -136,11 +136,11 @@ INSERT INTO Vocabulary (Content, Meaning, Example, Lesson_ID) VALUES
 -- BẢNG QUIZZES: Khởi tạo 5 bài thi cho 5 Lesson mới
 -- ==============================================================================
 INSERT INTO Quizzes (Lesson_ID, Minimum_Pass_Score, Possible_Points) VALUES 
-(1, 10, 150),    -- Quiz ID=5 (Bai 6): 3 cau, Quy 150d
-(2, 15, 150),    -- Quiz ID=6 (Bai 7): 3 cau, Quy 150d
-(3, 20, 300),    -- Quiz ID=7 (Bai 8): 3 cau, Quy 300d
-(4, 30, 450),    -- Quiz ID=8 (Bai 9): 3 cau, Quy 450d
-(5, 40, 600);   -- Quiz ID=9 (Bai 10): 3 cau, Quy 600d
+(1, 0, 150),    -- Quiz ID=5 (Bai 6): 3 cau, Quy 150d
+(2, 0, 150),    -- Quiz ID=6 (Bai 7): 3 cau, Quy 150d
+(3, 0, 300),    -- Quiz ID=7 (Bai 8): 3 cau, Quy 300d
+(4, 0, 450),    -- Quiz ID=8 (Bai 9): 3 cau, Quy 450d
+(5, 0, 600);   -- Quiz ID=9 (Bai 10): 3 cau, Quy 600d
 
 
 -- ==============================================================================
@@ -249,11 +249,11 @@ INSERT INTO Vocabulary (Content, Meaning, Example, Lesson_ID) VALUES
 -- BẢNG QUIZZES: 5 bài thi cho Lesson 6 -> 10
 -- ==============================================================================
 INSERT INTO Quizzes (Lesson_ID, Minimum_Pass_Score, Possible_Points) VALUES 
-(6, 10, 150),    -- Quiz ID=6 (Bai 6)
-(7, 15, 150),    -- Quiz ID=7 (Bai 7)
-(8, 20, 300),    -- Quiz ID=8 (Bai 8)
-(9, 30, 450),    -- Quiz ID=9 (Bai 9)
-(10, 40, 600);   -- Quiz ID=10 (Bai 10)
+(6, 0, 150),    -- Quiz ID=6 (Bai 6)
+(7, 0, 150),    -- Quiz ID=7 (Bai 7)
+(8, 0, 300),    -- Quiz ID=8 (Bai 8)
+(9, 0, 450),    -- Quiz ID=9 (Bai 9)
+(10, 0, 600);   -- Quiz ID=10 (Bai 10)
 
 
 -- ==============================================================================
