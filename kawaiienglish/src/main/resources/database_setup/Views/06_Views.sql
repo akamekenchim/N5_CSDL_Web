@@ -74,3 +74,19 @@ from students
     join classes on classes.`Class_ID` = students.`Class_ID`;
 
 select * from v_class_students where `Class_ID` = 3;
+
+CREATE OR REPLACE VIEW v_quiz_details_student AS
+SELECT 
+    qz.Quiz_ID,
+    l.Lesson_ID,
+    l.Title AS Lesson_Title,
+    qz.Minimum_Pass_Score,
+    qz.Possible_Points,
+    q.Question_ID,
+    q.Content AS Question_Content
+FROM 
+    Quizzes qz
+JOIN 
+    Lessons l ON qz.Lesson_ID = l.Lesson_ID
+JOIN 
+    Questions q ON qz.Quiz_ID = q.Quiz_ID;

@@ -51,7 +51,7 @@ INSERT INTO Classes (Class_Name, Teacher_ID, CEFR_Level) VALUES
 ('Lop C2 - 2', 4, 'C2');
 
 INSERT INTO Students (Full_Name, Email, Assessment_CEFR) VALUES
-('Viet Anh', 'giaanh@hust.edu.vn', 'A1'),        
+('Hoang Tuyen', 'airituyen@hust.edu.vn', 'A1'),        
 ('Binh Minh', 'binhminh@hust.edu.vn', 'A1'),       
 ('Tuan Anh', 'kiet@hust.edu.vn', 'A1'),           
 ('Bay Ta', 'ronaldo@hust.edu.vn', 'A2'),
@@ -147,28 +147,28 @@ INSERT INTO Quizzes (Lesson_ID, Minimum_Pass_Score, Possible_Points) VALUES
 -- BẢNG QUESTIONS: Nội dung test bám sát Vocabulary và Grammar vừa học
 -- ==============================================================================
 INSERT INTO Questions (Quiz_ID, Content, Correct_Answer) VALUES 
-(1, 'Dien vao cho trong: I drink a glass of ___ every morning.', 'water'),
-(1, 'Dien vao cho trong: Do you have ___ eggs in the fridge?', 'any'),
-(1, 'Tu trai nghia voi "Hungry" (doi bung) la gi?', 'full'),
+(1, 'Dien vao cho trong: I drink a glass of ___ every morning. chili/water/orange', 'water'),
+(1, 'Dien vao cho trong: Do you have ___ eggs in the fridge? any/many/few', 'any'),
+(1, 'Tu trai nghia voi "Hungry" (doi bung) la gi? full/empty/alone', 'full'),
 
 
-(2, 'Dien vao cho trong: She ___ goes to the gym on weekends.', 'usually'),
+(2, 'Dien vao cho trong: She ___ goes to the gym on weekends. usually/do not/loves', 'usually'),
 (2, 'Toi an bua sang luc 7 gio: I have ___ at 7 AM.', 'breakfast'),
 (2, 'Chon the dung cua dong tu: He (watch) TV every night.', 'watches'),
 
 (3, 'Nhin nhung dam may den kia! It ___ going to rain.', 'is'),
 (3, 'Toi se xach hanh ly giup ban: I ___ help you with your luggage.', 'will'),
-(3, 'Tu dong nghia cua "Luggage" (hanh ly) la gi?', 'baggage'),
+(3, 'Tu dong nghia cua "Luggage" (hanh ly) la gi? baggage/bag/suitcase', 'baggage'),
 
 
 (4, 'Dien vao cho trong (Bi dong): The room ___ cleaned every day.', 'is'),
 (4, 'Rac thai phai duoc vut vao thung: The rubbish must ___ thrown in the bin.', 'be'),
-(4, 'Tu trai nghia cua "Destroy" (pha huy) la gi?', 'protect'),
+(4, 'Tu trai nghia cua "Destroy" (pha huy) la gi? protect/ruin/save', 'protect'),
 
 
 (5, '___ it was raining heavily, we still went to the meeting.', 'Although'),
 (5, 'He saved money in ___ to buy a new laptop.', 'order'),
-(5, 'Tu dong nghia cua "Colleague" (dong nghiep) la gi?', 'coworker');
+(5, 'Tu dong nghia cua "Colleague" (dong nghiep) la gi? colleague/coworker/employer', 'coworker');
 
 -- ==============================================================================
 -- BẢNG LESSONS: 5 Bài giảng tiếp theo (ID từ 6 đến 10)
@@ -263,7 +263,7 @@ INSERT INTO Questions (Quiz_ID, Content, Correct_Answer) VALUES
 
 (6, 'Dien vao cho trong: I ___ two sisters and one brother.', 'have'),
 (6, 'Dien vao cho trong: She ___ not have a pet.', 'does'),
-(6, 'Tu dong nghia cua "Relative" (nguoi ho hang) la gi?', 'family'),
+(6, 'Tu dong nghia cua "Relative" (nguoi ho hang) la gi? family/sibling/parents/friends', 'family'),
 
 
 (7, 'This jacket is ___ than the black one.', 'cheaper'),
@@ -273,14 +273,14 @@ INSERT INTO Questions (Quiz_ID, Content, Correct_Answer) VALUES
 
 (8, 'You ___ see a doctor if you feel sick.', 'should'),
 (8, 'He had ___ not stay up late.', 'better'),
-(8, 'Tu trai nghia cua "Recover" (phuc hoi) la gi?', 'worsen'),
+(8, 'Tu trai nghia cua "Recover" (phuc hoi) la gi? worsen/improve/decline', 'improve'),
 
 
 (9, 'By 2030, they will ___ built a new smart city.', 'have'),
 (9, 'At 10 AM tomorrow, we will be ___ the new software.', 'testing'),
-(9, 'Tu trai nghia cua "Obsolete" (loi thoi, cu ky) la gi?', 'modern'),
+(9, 'Tu trai nghia cua "Obsolete" (loi thoi, cu ky) la gi? modern/ancient/contemporary', 'modern'),
 
 
 (10, 'Rarely ___ she go out after dark.', 'does'),
 (10, 'Not ___ did they win, but they also broke the record.', 'only'),
-(10, 'Tu dong nghia cua "Custom" (phong tuc) la gi?', 'tradition');
+(10, 'Tu dong nghia cua "Custom" (phong tuc) la gi? custom/tradition/heritage', 'tradition');
