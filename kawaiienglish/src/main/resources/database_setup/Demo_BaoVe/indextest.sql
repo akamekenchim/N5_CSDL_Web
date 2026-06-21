@@ -2,8 +2,8 @@ ALTER TABLE Attempts ALTER INDEX idx_attempt_lookup INVISIBLE;
 ALTER TABLE Classes ALTER INDEX idx_classes_assignment INVISIBLE;
 ALTER TABLE Students ALTER INDEX idx_students_leaderboard INVISIBLE;
 ALTER TABLE Student_Submissions ALTER INDEX idx_submission_attempt INVISIBLE;
-
-
+alter table lessons alter index idx_lessons_level_req invisible;
+alter table levels alter index idx_levels_cefr invisible;
 
 -- ======================================================================
 -- BƯỚC 2: MỞ KHÓA B-TREE (Demo Index Lookup -> Chạy SIÊU TỐC)
@@ -12,6 +12,9 @@ ALTER TABLE Attempts ALTER INDEX idx_attempt_lookup VISIBLE;
 ALTER TABLE Classes ALTER INDEX idx_classes_assignment VISIBLE;
 ALTER TABLE Students ALTER INDEX idx_students_leaderboard VISIBLE;
 ALTER TABLE Student_Submissions ALTER INDEX idx_submission_attempt VISIBLE;
+
+alter table lessons alter index idx_lessons_level_req visible;
+alter table levels alter index idx_levels_cefr visible;
 
 show index from Attempts;
 show index from Classes;
@@ -69,3 +72,6 @@ where `Student_ID` = 3647 and `Quiz_ID` = 2052 and `Status` = 'COMPLETED';
 EXPLAIN
 SELECT COUNT(*) FROM Student_Submissions 
 WHERE Attempt_ID = 1;  
+select * from lessons where `Level_Required` <= 2;
+explain
+select * from lessons where `Level_Required` <= 2;
