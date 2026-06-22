@@ -35,3 +35,5 @@ INSERT INTO Student_Submissions (Student_ID, Student_ANS, Question_ID) values
 call sp_check_levelup(10, -10);
 
 
+select * from v_class_students where `Class_ID` = 2;
+select * from v_leaderboard LIMIT 10;
